@@ -18,11 +18,8 @@ jobs:
       - uses: pre-commit/action@v3.0.0
         with:
           extra_args: --all-files
-#      - name: Run pre-commit checks
-#        run: |
-#          pipenv run pre-commit run --all-files
-#      - name: Build the app container
-#        run: |
-#          pushd app
-#          docker build -t app .
-#          popd
+      - name: Build the app container
+        run: |
+          pushd app
+          docker build -t app .
+          popd
