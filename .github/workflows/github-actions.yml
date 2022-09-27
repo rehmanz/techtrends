@@ -17,12 +17,12 @@ jobs:
           python3 --version
           python -m pip install --upgrade pipenv wheel
           pipenv --version
-          pipenv install --dev
-      - name: Run pre-commit checks
-        run: |
-          pipenv run pre-commit run --all-files
-      - name: Build the app container
-        run: |
-          pushd app
-          docker build -t app .
-          popd
+#          pipenv install --dev
+#      - name: Run pre-commit checks
+#        run: |
+#          pipenv run pre-commit run --all-files
+#      - name: Build the app container
+#        run: |
+#          pushd app
+#          docker build -t app .
+#          popd
