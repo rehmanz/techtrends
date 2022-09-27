@@ -16,8 +16,8 @@ jobs:
           python -m pip install --upgrade pipenv wheel
           pipenv install --dev
       - uses: pre-commit/action@v3.0.0
-          with:
-            extra_args: --all-files
+        with:
+          extra_args: --all-files
 #      - name: Run pre-commit checks
 #        run: |
 #          pipenv run pre-commit run --all-files
