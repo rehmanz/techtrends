@@ -1,4 +1,4 @@
-name: Tech Trends
+name: Tech Trends App
 on: [push]
 jobs:
   build_app:
@@ -18,9 +18,6 @@ jobs:
       - name: Run pre-commit checks
         run: |
           pipenv run pre-commit run --all-files
-#      - uses: pre-commit/action@v3.0.0
-#        with:
-#          extra_args: --all-files
       - name: Build the app container
         run: |
           pushd app
