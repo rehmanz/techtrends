@@ -5,13 +5,15 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "7.1.2"
-pytest-rerunfailures="10.2"
+pytest-rerunfailures = "10.2"
+pysqlite3 = "0.4.7"
 
 [packages]
 pre-commit = "3.0.0"
 flask = "2.1.0"
 werkzeug= "2.0.0"
 itsdangerous= "2.0.1"
+pysqlite3 = "0.4.7"
 
 [requires]
 python_version = "3.8"
