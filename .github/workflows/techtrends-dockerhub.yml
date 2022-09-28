@@ -37,7 +37,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Push contain to Docker Hub
+      - name: Push container to Docker Hub
         env:
           DOCKER_HUB_REGISTRY: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_REPOSITORY: techtrends
