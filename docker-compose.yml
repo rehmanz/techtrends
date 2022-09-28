@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+  web:
+    image: "app:latest"
+    ports:
+      - 3111:3111

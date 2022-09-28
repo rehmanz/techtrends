@@ -1,5 +1,4 @@
 import sqlite3
-
 import logging
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
@@ -24,7 +23,7 @@ def get_post(post_id):
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
-@app.route('/status')
+@app.route('/healthz')
 def healthcheck():
     response = app.response_class(
             response=json.dumps({"result":"OK - healthy"}),
@@ -88,6 +87,10 @@ def create():
 
     return render_template('create.html')
 
-if __name__ == "__main__":
+def main():
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
-    app.run(host='0.0.0.0', port='3111')
+    app.run(host='0.0.0.0', port=3111)
+
+
+if __name__ == "__main__":
+    main()

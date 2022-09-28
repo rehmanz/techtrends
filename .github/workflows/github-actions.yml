@@ -1,4 +1,4 @@
-name: Tech Trends
+name: Tech Trends App
 on: [push]
 jobs:
   build_app:
@@ -15,11 +15,20 @@ jobs:
         run: |
           python -m pip install --upgrade pipenv wheel
           pipenv install --dev
-      - uses: pre-commit/action@v3.0.0
-        with:
-          extra_args: --all-files
+      - name: Run pre-commit checks
+        run: |
+          pipenv run pre-commit run --all-files
       - name: Build the app container
         run: |
           pushd app
           docker build -t app .
           popd
+      - name: Bring up the app
+        run: |
+          docker-compose up -d
+      - name: Run unit tests
+        run: |
+          pipenv run pytest --reruns 5 --reruns-delay 5
+      - name: Cleanup app and db containers
+        run: |
+          docker-compose down

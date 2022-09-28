@@ -7,6 +7,6 @@ RUN pip3 install pipenv
 RUN pipenv install
 
 ENV PATH=/root/.local:$PATH
-EXPOSE 5000
+EXPOSE 3111
 
 CMD ["./run_app.sh"]
