@@ -7,19 +7,42 @@ from werkzeug.exceptions import abort
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
-    connection.row_factory = sqlite3.Row
-    return connection
+    try:
+        connection = sqlite3.connect('database.db')
+        connection.row_factory = sqlite3.Row
+        return connection
+    except Exception as e:
+        raise Exception("Unable to establish db connection: %s" %e)
 
 # Function to get a post using its ID
 def get_post(post_id):
-    connection = get_db_connection()
-    post = connection.execute('SELECT * FROM posts WHERE id = ?',
-                        (post_id,)).fetchone()
-    connection.close()
-    return post
+    try:
+        connection = get_db_connection()
+        post = connection.execute('SELECT * FROM posts WHERE id = ?',
+                            (post_id,)).fetchone()
+        connection.close()
+        return post
+    except Exception as e:
+        raise Exception("Unable to get posts: %s" %e)
 
-# Define the Flask application
+def get_posts_count():
+    try:
+        connection = get_db_connection()
+        posts_count = connection.execute('SELECT COUNT(*) FROM posts;').fetchone()[0]
+        connection.close()
+        return posts_count
+    except Exception as e:
+        raise Exception("Unable to get posts: %s" %e)
+
+def get_db_connection_count():
+    try:
+        connection = get_db_connection()
+        connection_count = connection.execute("SELECT 1").fetchall()[0][0]
+        connection.close()
+        return connection_count
+    except Exception as e:
+        raise Exception("Unable to get db connection count: %s" %e)
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
@@ -31,13 +54,12 @@ def healthcheck():
             mimetype='application/json'
     )
     app.logger.info('Status request successfull')
-    app.logger.debug('DEBUG message')
     return response
 
 @app.route('/metrics')
 def metrics():
     response = app.response_class(
-            response=json.dumps({"status":"success","code":0,"data":{"UserCount":140,"UserCountActive":23}}),
+            response=json.dumps({"status":"success","code":0,"data":{"db_connection_count": get_db_connection_count(),"post_count":get_posts_count()}}),
             status=200,
             mimetype='application/json'
     )
@@ -88,7 +110,7 @@ def create():
     return render_template('create.html')
 
 def main():
-    logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+    logging.basicConfig(filename='app.log', format='%(asctime)s - %(message)s', level=logging.INFO)
     app.run(host='0.0.0.0', port=3111)
 
 
