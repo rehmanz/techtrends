@@ -29,6 +29,6 @@ jobs:
       - name: Run unit tests
         run: |
           pipenv run pytest --reruns 5 --reruns-delay 5
-      - name: Cleanup app and db containers
+      - name: Cleanup app container
         run: |
           docker-compose down
