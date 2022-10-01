@@ -77,6 +77,8 @@ jobs:
           kubectl create -f namespace.yaml
           kubectl get namespace
 
+          kubectl create -f deploy.yaml
+
           kubectl get all -n sandbox
 
           popd
