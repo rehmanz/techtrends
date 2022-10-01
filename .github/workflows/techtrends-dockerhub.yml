@@ -56,6 +56,7 @@ jobs:
           popd
 
   deploy_app:
+    needs: build_app
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -67,7 +68,18 @@ jobs:
         with:
           minikube version: 'v1.27.0'
           kubernetes version: 'v1.25.0'
-      - name: Interact with the custer
+      - name: Setup the cluster
         run: |
-          minikube ip
-          kubectl get nodes
+          pushd kubernetes
+
+          minikube_host=`minikube ip`
+
+          kubectl create -f namespace.yaml
+          kubectl get namespace
+
+          kubectl create -f deploy.yaml
+          kubectl expose deployment techtrends --type=NodePort --name=techtrends-nodeport
+
+          kubectl get all -n sandbox
+
+          popd
