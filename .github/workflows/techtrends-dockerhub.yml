@@ -72,12 +72,11 @@ jobs:
         run: |
           pushd kubernetes
 
-          minikube_host=`minikube ip`
-
           kubectl create -f namespace.yaml
           kubectl get namespace
 
           kubectl create -f deploy.yaml
+          kubectl -n sandbox expose deployment techtrends --type=NodePort
 
           kubectl get all -n sandbox
 
