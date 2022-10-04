@@ -80,6 +80,6 @@ jobs:
 
           kubectl get all -n sandbox
 
-          minikube ssh "pwd"
+          #TODO: Validate app
 
           popd
