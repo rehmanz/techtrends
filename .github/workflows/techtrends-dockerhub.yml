@@ -54,3 +54,32 @@ jobs:
           echo "Pushing the container to Docker Hub."
           docker push ${DOCKER_HUB_REGISTRY}/${DOCKER_HUB_REPOSITORY}:${IMAGE_TAG}
           popd
+
+  deploy_app:
+    needs: build_app
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.7.0
+        with:
+          minikube version: 'v1.27.0'
+          kubernetes version: 'v1.25.0'
+      - name: Setup the cluster
+        run: |
+          pushd kubernetes
+
+          kubectl create -f namespace.yaml
+          kubectl get namespace
+
+          kubectl create -f deploy.yaml
+          kubectl -n sandbox expose deployment techtrends --type=NodePort --port=4111
+
+          kubectl get all -n sandbox
+
+          #TODO: Validate app
+
+          popd
