@@ -91,8 +91,9 @@ jobs:
 
           popd
       - name: Validate helm charm
-          run: |
-            helm install fantastic-four ./helm
+        uses: helm/chart-releaser-action@v1.1.0
+        run: |
+          helm install fantastic-four ./helm
 
-            kubectl get all -n sandbox
-            #TODO: Validate app
+          kubectl get all -n sandbox
+          #TODO: Validate app
