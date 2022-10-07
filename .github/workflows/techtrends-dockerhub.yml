@@ -90,10 +90,3 @@ jobs:
           kubectl delete namespace sandbox
 
           popd
-      - name: Validate helm charm
-        uses: helm/chart-releaser-action@v1.1.0
-        run: |
-          helm install fantastic-four ./helm
-
-          kubectl get all -n sandbox
-          #TODO: Validate app
