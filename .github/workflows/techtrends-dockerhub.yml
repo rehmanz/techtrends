@@ -68,7 +68,7 @@ jobs:
         with:
           minikube version: 'v1.27.0'
           kubernetes version: 'v1.25.0'
-      - name: Setup the cluster
+      - name: Validate k8 app setup
         run: |
           pushd kubernetes
 
@@ -76,10 +76,23 @@ jobs:
           kubectl get namespace
 
           kubectl create -f deploy.yaml
-          kubectl -n sandbox expose deployment techtrends --type=NodePort --port=4111
+          kubectl -n sandbox expose deployment techtrends --type=NodePort --port=3111
+          minikube service techtrends --url -n sandbox
 
           kubectl get all -n sandbox
 
+          #minikube service techtrends --url -n sandbox
           #TODO: Validate app
 
+          # Cleanup
+          kubectl delete deployment techtrends -n sandbox
+          kubectl delete service techtrends -n sandbox
+          kubectl delete namespace sandbox
+
           popd
+      - name: Validate helm charm
+          run: |
+            helm install fantastic-four ./helm
+
+            kubectl get all -n sandbox
+            #TODO: Validate app
