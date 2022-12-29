@@ -1,0 +1,8 @@
+apiVersion: v1
+name: techtrends
+description: Technology Trends Helm Chart
+version: 1.0.0
+maintainers:
+  - name: Zile Rehman
+    email: rehmanz@yahoo.com
+    url: https://github.com/rehmanz
